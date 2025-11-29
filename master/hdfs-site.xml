@@ -3,7 +3,7 @@
 <configuration>
     <property>
         <name>dfs.name.dir</name>
-        <value>${user.home}/bigdata/hd-data/nn</value>
+        <value>/data/nn</value>
     </property>
     <property>
         <name>dfs.replication</name>

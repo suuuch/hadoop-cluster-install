@@ -3,16 +3,16 @@ Hadoop is an ideal tool to begin understanding distributed storage and distribut
 
 Though in production we prefer cloud-based Hadoop solutions (like AWS EMR, Cloudera CDH, etc), setting up a Hadoop cluster manually gives clarity about distributed systems.
 
-This beginner's tutorial is written purely for educational purposes. This repository has minimal Hadoop configurations for the master and worker nodes. For more explanation, refer YouTube video https://youtu.be/c2Lg5c8v4YQ.
+This beginner's tutorial is written purely for educational purposes. This repository has minimal Hadoop configurations for the master and worker nodes. 
 
 ## Hadoop Cluster Setup steps
 * step 1: Install VirtualBox on your system.
     * ubuntu terminal> sudo apt install virtualbox
 * step 2: Download Ubuntu Server Image.
-    * https://www.osboxes.org/ubuntu-server/
+    * https://ubuntu.com/download/server
 * step 3: In virtualbox create new VM and attach the downloaded .vdi to it.
-    * Number of processors: 1
-    * RAM: 2560 GB
+    * Number of processors: 4
+    * RAM: 8 GB
     * Network: NAT
 * step 4: Create new admin user "hduser" and login with default user.
     * terminal> sudo adduser hduser
@@ -22,8 +22,8 @@ This beginner's tutorial is written purely for educational purposes. This reposi
     * terminal> sudo apt update
     * terminal> sudo apt install vim ssh net-tools openjdk-11-jdk git
     * terminal> cd ~
-    * terminal> wget https://archive.apache.org/dist/hadoop/common/hadoop-3.3.2/hadoop-3.3.2.tar.gz
-    * terminal> tar xvf hadoop-3.3.2.tar.gz
+    * terminal> wget https://archive.apache.org/dist/hadoop/common/hadoop-3.3.6/hadoop-3.3.6.tar.gz
+    * terminal> tar xvf hadoop-3.3.6.tar.gz
     * terminal> init 0
 * step 6: In VirtualBox enable Host-only networking
     * In VirtualBox -> File -> Host Network Manager -> Create
@@ -42,25 +42,25 @@ This beginner's tutorial is written purely for educational purposes. This reposi
                 enp0s3:
                     dhcp4: true
                 enp0s8:
-                    addresses: [192.168.56.50/24]
+                    addresses: [192.168.26.100/24]
                     dhcp4: false
         ```
     * terminal> sudo netplan apply
     * terminal> sudo ip a
     * terminal> sudo vim /etc/hosts
         ```
-        192.168.56.50   master
-        192.168.56.51   worker1
-        192.168.56.52   worker2
-        192.168.56.53   worker3
+        192.168.26.100   master
+        192.168.26.101   worker1
+        192.168.26.102   worker2
+        192.168.26.103   worker3
         ```
     * terminal> sudo hostnamectl set-hostname master
 * step 9: Configure Hadoop.
     * terminal> cd ~
     * terminal> vim ~/.bashrc
         ```sh
-        export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-        export HADOOP_HOME=$HOME/hadoop-3.3.2
+        export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+        export HADOOP_HOME=/opt/hadoop
         export PATH=$HADOOP_HOME/sbin:$HADOOP_HOME/bin:$PATH
         ```
     * terminal> source ~/.bashrc
@@ -86,7 +86,7 @@ This beginner's tutorial is written purely for educational purposes. This reposi
                 enp0s3:
                     dhcp4: true
                 enp0s8:
-                    addresses: [192.168.56.51/24]
+                    addresses: [192.168.26.101/24]
                     dhcp4: false
         ```
     * terminal> sudo netplan apply
@@ -113,7 +113,7 @@ This beginner's tutorial is written purely for educational purposes. This reposi
                 enp0s3:
                     dhcp4: true
                 enp0s8:
-                    addresses: [192.168.56.52/24]
+                    addresses: [192.168.26.102/24]
                     dhcp4: false
         ```
     * terminal> sudo netplan apply
@@ -162,7 +162,7 @@ This beginner's tutorial is written purely for educational purposes. This reposi
     * master terminal> hadoop fs -ls /
     * master terminal> hadoop fs -cat /hello.txt
 * step 21: From the host machine access Hadoop web interface.
-    * Browser: http://192.168.56.50:9870
+    * Browser: http://192.168.26.100:9870
 * step 22: Stop the Hadoop and verify.
     * master terminal> stop-yarn.sh
     * master terminal> stop-dfs.sh
